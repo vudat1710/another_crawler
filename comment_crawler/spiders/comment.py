@@ -4,11 +4,11 @@ from scrapy.linkextractors import LinkExtractor
 from comment_crawler.items import CommentCrawlerItem
 from scrapy_splash import SplashRequest
 import logging
-from comment_crawler.spiders.lua_script import click_script, scroll_script
+from comment_crawler.spiders.lua_script import click_script, scroll_script, load_store, load_comment
 
 class CommentCrawlerSpider(CrawlSpider):
     name = 'comment_crawler'
-    allowed_domains = ['foody.vn']
+    allowed_domains = ['www.foody.vn']
     start_urls = []
 
     def __init__(self, *a, **kw):
@@ -19,9 +19,9 @@ class CommentCrawlerSpider(CrawlSpider):
     
     def start_requests(self):
         for url in self.start_urls:
-            yield SplashRequest(url, self.parse_foodshop, endpoint='execute',
-                args={'lua_source': click_script, 'num_clicks': 15, 'click_delay': 1, 
-                'is_crawling_comment': "ask", 'wait': 3})
+            yield SplashRequest(url, self.parse_foodshop,
+                args={'lua_source': click_script, 'num_clicks': 30, 'click_delay': 2, 
+                'is_crawling_comment': "ask", 'wait': 2})
     
     def parse_foodshop(self, response):
         urls = response.xpath('//div[@class="ldc-item-img"]/a/@href').extract()
@@ -30,8 +30,8 @@ class CommentCrawlerSpider(CrawlSpider):
             yield Request(full_url, callback=self.parse_lua, dont_filter=True)
     
     def parse_lua(self, response):
-        yield SplashRequest(response.url, self.parse_item, endpoint='execute', 
-            args={'lua_source': scroll_script, 'num_scrolls': 15, 'scroll_delay': 1, 'wait': 5})
+        yield SplashRequest(response.url, self.parse_item, endpoint='execute',
+            args={'lua_source': scroll_script, 'num_scrolls': 10, 'scroll_delay': 1, 'wait': 3})
 
     def parse_item(self, response):
         items = response.xpath('//ul[@class="review-list fd-clearbox ng-scope"]/li')

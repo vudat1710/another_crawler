@@ -11,10 +11,10 @@ NEWSPIDER_MODULE = 'comment_crawler.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-#CONCURRENT_REQUESTS = 32
-# DOWNLOAD_DELAY = 1
+#CONCURRENT_REQUESTS = 16
+#DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 2
+#CONCURRENT_REQUESTS_PER_DOMAIN = 5
 
 # Disable cookies (enabled by default)
 #COOKIES_ENABLED = False

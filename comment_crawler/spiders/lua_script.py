@@ -7,14 +7,26 @@ click_script = """
         local click_button
         if crawl_comment == "comment" then
             click_button = splash:jsfunc([[
-                function () {
-                    document.querySelector("div[class='pn-loadmore fd-clearbox ng-scope'] > a").click();
+                function() {
+                    let button = document.querySelector("div[class='pn-loadmore fd-clearbox ng-scope'] > a");
+                    if (button) {
+                        button.click();
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             ]])
         else
             click_button = splash:jsfunc([[
-                function () {
-                    document.querySelector("div[class='btn-load-more ng-scope ng-enter-prepare'] > a").click();
+                function() {
+                    let button = document.querySelector("div[class='btn-load-more ng-scope ng-enter-prepare'] > a");
+                    if (button) {
+                        button.click();
+                        return true;
+                    } else {
+                        return false;
+                    }
                 }
             ]])
         end
@@ -22,7 +34,11 @@ click_script = """
         splash:wait(splash.args.wait)
 
         for _ = 1, num_clicks do
-            click_button()
+            local button = splash:select("#list-detail-content a[ng-click='LoadMore()']")
+            local cont = click_button()
+            if cont == false then
+                break
+            end
             splash:wait(click_delay)
         end
         return splash:html()
@@ -42,14 +58,53 @@ scroll_script = """
         ]])
         assert(splash:go(splash.args.url))
         splash:wait(splash.args.wait)
+        local prev_scroll_height = get_scroll_height()
 
         for _ = 1, num_scrolls do
             local scroll_height = get_scroll_height()
-            for i = 1,10 do
-                scroll_func(0, scroll_height * i / 10)
-                splash:wait(scroll_delay / 10)
+            if scroll_height == prev_scroll_height then
+                break
+            else
+                for i = 1,10 do
+                    scroll_func(0, scroll_height * i / 10)
+                    splash:wait(scroll_delay / 10)
+                end
+                prev_scroll_height = scroll_height
             end
         end
         return splash:html()
     end
+"""
+
+load_store = """
+function main(splash, args)
+  assert(splash:go(args.url))
+  assert(splash:wait(0.5))
+  for i = 1, 100 do
+  	local element = splash:select("#list-detail-content a[ng-click='LoadMore()']")
+  	if not element then break end
+	element:mouse_click()
+  	assert(splash:wait(0.5))
+  end
+  return {
+    html = splash:html()
+  }
+end
+"""
+
+
+load_comment = """
+function main(splash, args)
+  assert(splash:go(args.url))
+  assert(splash:wait(0.5))
+  for i = 1, 50 do
+  	local element = splash:select("div.lists.list-reviews a.fd-btn-more[ng-click='LoadMore()']")
+  	if not element then break end
+	element:mouse_click()
+  	assert(splash:wait(0.5))
+  end
+  return {
+    html = splash:html()
+  }
+end
 """
