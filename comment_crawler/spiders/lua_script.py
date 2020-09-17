@@ -34,7 +34,6 @@ click_script = """
         splash:wait(splash.args.wait)
 
         for _ = 1, num_clicks do
-            local button = splash:select("#list-detail-content a[ng-click='LoadMore()']")
             local cont = click_button()
             if cont == false then
                 break
@@ -61,14 +60,12 @@ scroll_script = """
         local prev_scroll_height = get_scroll_height()
 
         for _ = 1, num_scrolls do
+            scroll_func(0, prev_scroll_height)
+            splash:wait(scroll_delay)
             local scroll_height = get_scroll_height()
             if scroll_height == prev_scroll_height then
                 break
             else
-                for i = 1,10 do
-                    scroll_func(0, scroll_height * i / 10)
-                    splash:wait(scroll_delay / 10)
-                end
                 prev_scroll_height = scroll_height
             end
         end
