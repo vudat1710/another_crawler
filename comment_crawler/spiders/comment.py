@@ -4,7 +4,7 @@ from scrapy.linkextractors import LinkExtractor
 from comment_crawler.items import CommentCrawlerItem
 from scrapy_splash import SplashRequest
 import logging
-from comment_crawler.spiders.lua_script import click_script, scroll_script, load_store, load_comment
+from comment_crawler.spiders.lua_script import click_script, scroll_script
 
 class CommentCrawlerSpider(CrawlSpider):
     name = 'comment_crawler'

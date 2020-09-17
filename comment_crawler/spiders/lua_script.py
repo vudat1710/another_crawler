@@ -75,36 +75,3 @@ scroll_script = """
         return splash:html()
     end
 """
-
-load_store = """
-function main(splash, args)
-  assert(splash:go(args.url))
-  assert(splash:wait(0.5))
-  for i = 1, 100 do
-  	local element = splash:select("#list-detail-content a[ng-click='LoadMore()']")
-  	if not element then break end
-	element:mouse_click()
-  	assert(splash:wait(0.5))
-  end
-  return {
-    html = splash:html()
-  }
-end
-"""
-
-
-load_comment = """
-function main(splash, args)
-  assert(splash:go(args.url))
-  assert(splash:wait(0.5))
-  for i = 1, 50 do
-  	local element = splash:select("div.lists.list-reviews a.fd-btn-more[ng-click='LoadMore()']")
-  	if not element then break end
-	element:mouse_click()
-  	assert(splash:wait(0.5))
-  end
-  return {
-    html = splash:html()
-  }
-end
-"""
