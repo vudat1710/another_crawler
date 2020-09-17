@@ -3,3 +3,11 @@ https://www.foody.vn/ho-chi-minh/o-dau
 https://www.foody.vn/da-nang/o-dau
 https://www.foody.vn/can-tho/o-dau
 https://www.foody.vn/hai-phong/o-dau
+https://www.foody.vn/khanh-hoa/o-dau
+https://www.foody.vn/lam-dong/o-dau
+https://www.foody.vn/dong-nai/o-dau
+https://www.foody.vn/binh-duong/o-dau
+https://www.foody.vn/quang-ninh/o-dau
+https://www.foody.vn/hue/o-dau
+https://www.foody.vn/thanh-hoa/o-dau
+https://www.foody.vn/vung-tau/o-dau

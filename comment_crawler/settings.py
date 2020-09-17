@@ -11,7 +11,7 @@ NEWSPIDER_MODULE = 'comment_crawler.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 8
+CONCURRENT_REQUESTS = 6
 #DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 CONCURRENT_REQUESTS_PER_DOMAIN = 2
@@ -47,7 +47,7 @@ SPLASH_COOKIES_DEBUG = False
 SPIDER_MIDDLEWARES = {
     'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
 }
-CLOSESPIDER_PAGECOUNT = 50000
+CLOSESPIDER_PAGECOUNT = 1000000
 DOWNLOADER_MIDDLEWARES = {
     'scrapy_splash.SplashCookiesMiddleware': 723,
     'scrapy_splash.SplashMiddleware': 725,

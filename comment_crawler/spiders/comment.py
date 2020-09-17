@@ -20,8 +20,8 @@ class CommentCrawlerSpider(CrawlSpider):
     def start_requests(self):
         for url in self.start_urls:
             yield SplashRequest(url, self.parse_foodshop,
-                args={'lua_source': click_script, 'num_clicks': 500, 'click_delay': 2, 
-                'is_crawling_comment': "ask", 'wait': 2})
+                args={'lua_source': click_script, 'num_clicks': 5000, 'click_delay': 2, 
+                'is_crawling_comment': "ask", 'wait': 3})
     
     def parse_foodshop(self, response):
         urls = response.xpath('//div[@class="ldc-item-img"]/a/@href').extract()
@@ -31,7 +31,9 @@ class CommentCrawlerSpider(CrawlSpider):
     
     def parse_lua(self, response):
         yield SplashRequest(response.url, self.parse_item, endpoint='execute',
-            args={'lua_source': scroll_script, 'num_scrolls': 100, 'scroll_delay': 2, 'wait': 2})
+            # args={'lua_source': scroll_script, 'num_scrolls': 100, 'scroll_delay': 2, 'wait': 2})
+            args={'lua_source': click_script, 'num_clicks': 5000, 'click_delay': 2, 
+                'is_crawling_comment': "comment", 'wait': 3})
 
     def parse_item(self, response):
         items = response.xpath('//ul[@class="review-list fd-clearbox ng-scope"]/li')
